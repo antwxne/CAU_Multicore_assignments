@@ -1,36 +1,38 @@
-import java.util.Vector;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.PriorityQueue;
 
 class pcThreadDynamic extends Thread {
     int end;
     int task_size;
     int result = 0;
-    PriorityBlockingQueue<Integer> numbersRef;
+    PriorityQueue<Integer> numbersRef;
 
-    pcThreadDynamic(PriorityBlockingQueue<Integer> ref, int t_size, int e) {
+    pcThreadDynamic(PriorityQueue<Integer> nRef, int t_size, int e) {
         end = e;
         task_size = t_size;
-        numbersRef = ref;
+        numbersRef = nRef;
     }
 
     public void run() {
         long startTime = System.currentTimeMillis();
 
         while (true) {
-            try {
-                if (numbersRef.isEmpty()) {
-                    break;
-                }
-                int begin = numbersRef.take();
-                for (int i = begin; i < begin + task_size; ++i) {
-                    result += isPrime(i);
-                }
-            } catch (Exception e) {
+            int begin = getNextNumber(numbersRef);
+            if (begin == -1) {
+                break;
             }
+            for (int i = begin; i < begin + task_size; ++i) {
+                result += isPrime(i);
+            }
+
         }
         long endTime = System.currentTimeMillis();
         long timeDiff = endTime - startTime;
         System.out.printf("Execution Time of thread %d : %d ms\n", Thread.currentThread().getId(), timeDiff);
+    }
+
+    synchronized private static int getNextNumber(PriorityQueue<Integer> numbersQueue) {
+        
+        return numbersQueue.isEmpty() ? -1 : numbersQueue.poll();
     }
 
     private static int isPrime(int x) {
@@ -56,17 +58,16 @@ class pc_dynamic {
             NUM_END = Integer.parseInt(args[1]);
             TASK_SIZE = Integer.parseInt(args[2]);
         }
-        Vector<Integer> number_list = new Vector<Integer>();
+        PriorityQueue<Integer> number_list = new PriorityQueue<Integer>();
 
         for (int i = 0; i < NUM_END; i += TASK_SIZE) {
             number_list.add(i);
         }
-        PriorityBlockingQueue<Integer> qInt = new PriorityBlockingQueue<Integer>(number_list);
 
         pcThreadDynamic[] threads = new pcThreadDynamic[N_THREAD];
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < threads.length; ++i) {
-            threads[i] = new pcThreadDynamic(qInt, TASK_SIZE, NUM_END);
+            threads[i] = new pcThreadDynamic(number_list, TASK_SIZE, NUM_END);
             threads[i].start();
         }
         for (int i = 0; i < threads.length; ++i) {
