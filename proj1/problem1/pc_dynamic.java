@@ -31,7 +31,7 @@ class pcThreadDynamic extends Thread {
     }
 
     synchronized private static int getNextNumber(PriorityQueue<Integer> numbersQueue) {
-        
+
         return numbersQueue.isEmpty() ? -1 : numbersQueue.poll();
     }
 
@@ -53,11 +53,10 @@ class pc_dynamic {
 
     public static void main(String[] args) {
         int result = 0;
-        if (args.length == 3) {
-            N_THREAD = Integer.parseInt(args[0]);
-            NUM_END = Integer.parseInt(args[1]);
-            TASK_SIZE = Integer.parseInt(args[2]);
-        }
+        N_THREAD = args.length >= 1 ? Integer.parseInt(args[0]) : N_THREAD;
+        NUM_END = args.length >= 2 ? Integer.parseInt(args[1]) : NUM_END;
+        TASK_SIZE = args.length >= 3 ? Integer.parseInt(args[2]) : TASK_SIZE;
+
         PriorityQueue<Integer> number_list = new PriorityQueue<Integer>();
 
         for (int i = 0; i < NUM_END; i += TASK_SIZE) {

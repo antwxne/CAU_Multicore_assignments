@@ -14,7 +14,7 @@ class pcThreadStaticCyclic extends Thread {
 
     public void run() {
         long startTime = System.currentTimeMillis();
-        
+
         for (; begin < end; begin += task_size * n_thread) {
             for (int i = begin; i < begin + task_size; ++i) {
                 result += isPrime(i);
@@ -43,11 +43,10 @@ class pc_static_cyclic {
 
     public static void main(String[] args) {
         int result = 0;
-        if (args.length == 3) {
-            N_THREAD = Integer.parseInt(args[0]);
-            NUM_END = Integer.parseInt(args[1]);
-            TASK_SIZE = Integer.parseInt(args[2]);
-        }
+        N_THREAD = args.length >= 1 ? Integer.parseInt(args[0]) : N_THREAD;
+        NUM_END = args.length >= 2 ? Integer.parseInt(args[1]) : NUM_END;
+        TASK_SIZE = args.length >= 3 ? Integer.parseInt(args[2]) : TASK_SIZE;
+
         pcThreadStaticCyclic[] threads = new pcThreadStaticCyclic[N_THREAD];
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < threads.length; ++i) {
@@ -58,11 +57,12 @@ class pc_static_cyclic {
             try {
                 threads[i].join();
                 result += threads[i].result;
-            } catch(InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
         long endTime = System.currentTimeMillis();
         long timeDiff = endTime - startTime;
         System.out.printf("Execution Time : %d ms\n", timeDiff);
-        System.out.printf("1... %d prime# counter == %d\n",NUM_END - 1, result);
+        System.out.printf("1... %d prime# counter == %d\n", NUM_END - 1, result);
     }
 }
