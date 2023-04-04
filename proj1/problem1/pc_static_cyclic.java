@@ -15,7 +15,7 @@ class pcThreadStaticCyclic extends Thread {
     public void run() {
         long startTime = System.currentTimeMillis();
         
-        for (int j = begin; begin < end; begin += task_size * n_thread) {
+        for (; begin < end; begin += task_size * n_thread) {
             for (int i = begin; i < begin + task_size; ++i) {
                 result += isPrime(i);
             }
@@ -48,10 +48,10 @@ class pc_static_cyclic {
             NUM_END = Integer.parseInt(args[1]);
             TASK_SIZE = Integer.parseInt(args[2]);
         }
-        pcThread[] threads = new pcThread[N_THREAD];
+        pcThreadStaticCyclic[] threads = new pcThreadStaticCyclic[N_THREAD];
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < threads.length; ++i) {
-            threads[i] = new pcThread(i * TASK_SIZE, NUM_END, TASK_SIZE, N_THREAD);
+            threads[i] = new pcThreadStaticCyclic(i * TASK_SIZE, NUM_END, TASK_SIZE, N_THREAD);
             threads[i].start();
         }
         for (int i = 0; i < threads.length; ++i) {

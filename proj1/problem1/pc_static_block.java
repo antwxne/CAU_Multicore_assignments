@@ -39,11 +39,11 @@ class pc_static_bloc {
             N_THREAD = Integer.parseInt(args[0]);
             NUM_END = Integer.parseInt(args[1]);
         }
-        pcThread[] threads = new pcThread[N_THREAD];
+        pcThreadStaticBlock[] threads = new pcThreadStaticBlock[N_THREAD];
         int range = NUM_END / N_THREAD;
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < threads.length; ++i) {
-            threads[i] = new pcThread(i * range, i * range + range);
+            threads[i] = new pcThreadStaticBlock(i * range, i * range + range);
             threads[i].start();
         }
         for (int i = 0; i < threads.length; ++i) {

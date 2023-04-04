@@ -63,10 +63,10 @@ class pc_dynamic {
         }
         PriorityBlockingQueue<Integer> qInt = new PriorityBlockingQueue<Integer>(number_list);
 
-        pcThread[] threads = new pcThread[N_THREAD];
+        pcThreadDynamic[] threads = new pcThreadDynamic[N_THREAD];
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < threads.length; ++i) {
-            threads[i] = new pcThread(qInt, TASK_SIZE, NUM_END);
+            threads[i] = new pcThreadDynamic(qInt, TASK_SIZE, NUM_END);
             threads[i].start();
         }
         for (int i = 0; i < threads.length; ++i) {
