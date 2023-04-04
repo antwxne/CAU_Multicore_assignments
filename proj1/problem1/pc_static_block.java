@@ -1,9 +1,9 @@
-class pcThread extends Thread {
+class pcThreadStaticBlock extends Thread {
     int begin;
     int end;
     int result = 0;
 
-    pcThread(int b, int e) {
+    pcThreadStaticBlock(int b, int e) {
         begin = b;
         end = e;
     }
