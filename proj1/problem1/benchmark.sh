@@ -23,10 +23,10 @@ function benchmark() {
   result_static_bloc=$(echo "$({ time (java pc_static_blovck $1 $max_number  &> /dev/null) } 2>&1)" | tr "," ".")
   result_static_clyclic=$(echo "$({ time (java pc_static_clyclic $1 $max_number  &> /dev/null) } 2>&1)" | tr "," ".")
   result_dynamic=$(echo "$({ time (java pc_dynamic $1 $max_number  &> /dev/null) } 2>&1)" | tr "," ".")
+  
   result_static_bloc=$(echo "$result_static_bloc * 1000" | bc)
   result_static_clyclic=$(echo "$result_static_clyclic * 1000" | bc)
   result_dynamic=$(echo "$result_dynamic * 1000" | bc)
-  
   
   echo $1","$result_static_bloc","$result_static_clyclic","$result_dynamic >> $output_file
 }

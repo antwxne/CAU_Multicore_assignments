@@ -72,31 +72,40 @@ java pc_dynamic < NUM_THREAD > < NUM_END > < TASK_SIZE >
 
 ## Results
 
+Thoses result were obtained with `NUM_END` = 200000.
+
 ### Raw
 
 | Number of threads | time in ms (static block) | time in ms (static cyclic) | time in ms (dynamic) |
 |-------------------|---------------------------|----------------------------|----------------------|
-| 1                 | 61.000                    | 58.000                     | 7327.000             |
-| 2                 | 69.000                    | 58.000                     | 3634.000             |
-| 4                 | 72.000                    | 59.000                     | 2056.000             |
-| 6                 | 60.000                    | 59.000                     | 1796.000             |
-| 8                 | 58.000                    | 74.000                     | 1773.000             |
-| 10                | 60.000                    | 59.000                     | 1665.000             |
-| 12                | 64.000                    | 60.000                     | 1592.000             |
-| 14                | 58.000                    | 58.000                     | 1765.000             |
-| 16                | 62.000                    | 62.000                     | 1586.000             |
-| 32                | 59.000                    | 57.000                     | 1573.000             |
+| 1                 | 29.000                    | 28.000                     | 2963.000             |
+| 2                 | 29.000                    | 27.000                     | 1685.000             |
+| 4                 | 30.000                    | 28.000                     | 996.000              |
+| 6                 | 30.000                    | 28.000                     | 941.000              |
+| 8                 | 28.000                    | 28.000                     | 926.000              |
+| 10                | 29.000                    | 29.000                     | 847.000              |
+| 12                | 37.000                    | 36.000                     | 1299.000             |
+| 14                | 44.000                    | 42.000                     | 1155.000             |
+| 16                | 44.000                    | 41.000                     | 1182.000             |
+| 32                | 45.000                    | 43.000                     | 1189.000             |
 
 ### Graphs
+
 !["graph for static block"](.report_src/graph_static_block.png)
 !["graph for static cyclic"](.report_src/graph_pc_static_cyclic.png)
 !["graph for dynamic"](.report_src/graph_pc_dynamic.png)
 
 ## Interpretation
 
+As we can see the static load balencing is more efficient for this type of calculus. This may be due to the use frenquency of `lock` in the dynamical approache.
+
+Tasks are too shorts to make the dynamical load balencing efficient.
+
+We can also see, for the static load balencing that after 10 threads, the execution time increase. So we can assume that for `200000` numbers, 10 threads are enougth.
+
 ## Source code
 
-### pc_static_block
+### pc_static_block.java
 
 ```java
 class pcThreadStaticBlock extends Thread {
@@ -160,7 +169,7 @@ class pc_static_block {
 }
 ```
 
-### pc_static_cyclic
+### pc_static_cyclic.java
 
 ```java
 class pcThreadStaticCyclic extends Thread {
@@ -233,7 +242,7 @@ class pc_static_cyclic {
 }
 ```
 
-### pc_dynamic
+### pc_dynamic.java
 
 ```java
 import java.util.PriorityQueue;
