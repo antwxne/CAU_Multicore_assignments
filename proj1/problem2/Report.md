@@ -1,3 +1,73 @@
+# Problem2 report
+
+## Environnement
+
+| Os     | Pop!_OS 22.04 LTS x86         |
+|--------|-------------------------------|
+| CPU    | Intel i7-8665U (8) @ 1.900GHz |
+| Memory | 16Gb                          |
+|Java version | openjdk 17.0.6 2023-01-17|
+
+## Build
+
+In the `problem2` directory
+
+```sh
+javac MatmultD.java
+```
+
+## How to use
+
+```sh
+java MatmultD NUM_THREAD < mat500.txt 
+```
+
+If you want to se the execution time of each thread:
+
+```sh
+java MatmultD NUM_THREAD < mat500.txt | head -n NUM_THREAD
+```
+
+## Results
+
+### Raw
+
+| Number of threads | Execution time in ms |
+|-------------------|----------------------|
+| 1                 | 975.000              |
+| 2                 | 929.000              |
+| 4                 | 910.000              |
+| 6                 | 893.000              |
+| 8                 | 900.000              |
+| 10                | 936.000              |
+| 12                | 942.000              |
+| 14                | 946.000              |
+| 16                | 888.000              |
+| 32                | 914.000              |
+
+### Graph
+
+![graph](.report_src/graph.png)
+
+## Interpretation
+
+For this exercise, static load balencing seems to be the best way to calculate the product of 2 matrix. As the size of each matrix is known, we can divide the process in multiple threads.
+
+Based on the following picture from [geeks for geeks](https://www.geeksforgeeks.org/multiplication-of-matrix-using-threads/)
+
+![matrix mul thread](.report_src/matmul.png)
+
+I decided to use the `2D CYCLIC,*` task repartition, where one line of the matrix A is one task.
+
+> We can also use the `2D BLOCK,*` task repartition
+
+If we look at the results we can see that the speed increase between 6 and 16 threads. So we can say that 6 threads are enought for a `500 * 500` matrix multiplied by another `500 * 500` matrix.
+
+## Source code
+
+### MatmultD.java
+
+```java
 import java.util.*;
 import java.lang.*;
 
@@ -24,15 +94,15 @@ class MatMulThread extends Thread {
     System.out.printf("Execution Time of thread %d : %d ms\n", Thread.currentThread().getId(), timeDiff);
   }
 
-  private void multMatrix() {// a[m][n], b[n][p]
+  private void multMatrix() {
     if (_matrixA.length == 0)
       return;
     if (_matrixA[0].length != _matrixB.length)
-      return; // invalid dims
+      return;
 
-    int A_MatrixLineSize = _matrixA[0].length; // size line A
-    int A_MatrixColSize = _matrixA.length; // size colone A
-    int B_MatrixColSize = _matrixB.length; // size line B
+    int A_MatrixLineSize = _matrixA[0].length;
+    int A_MatrixColSize = _matrixA.length;
+    int B_MatrixColSize = _matrixB.length; 
 
     for (int i = _startLine; i < A_MatrixColSize; i += _nThread) {
       for (int j = 0; j < B_MatrixColSize; j++) {
@@ -47,16 +117,6 @@ class MatMulThread extends Thread {
 
 }
 
-// command-line execution example) java MatmultD 6 < mat500.txt
-// 6 means the number of threads to use
-// < mat500.txt means the file that contains two matrices is given as standard
-// input
-//
-// In eclipse, set the argument value and file input by using the menu
-// [Run]->[Run Configurations]->{[Arguments], [Common->Input File]}.
-
-// Original JAVA source code:
-// http://stackoverflow.com/questions/21547462/how-to-multiply-2-dimensional-arrays-matrix-multiplication
 public class MatmultD {
   private static Scanner sc = new Scanner(System.in);
 
@@ -115,3 +175,4 @@ public class MatmultD {
     System.out.println("Matrix Sum = " + sum + "\n");
   }
 }
+```
