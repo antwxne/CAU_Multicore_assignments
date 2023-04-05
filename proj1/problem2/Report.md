@@ -176,3 +176,19 @@ public class MatmultD {
   }
 }
 ```
+
+## Execution screenshots
+
+### 1 thread
+
+![exec 1 thread](.report_src/exec_1_thread.png)
+
+### 2 threads
+
+![exec 2 thread](.report_src/exec_2threads.png)
+![time 2 threads](.report_src/thread_time_2_threads.png)
+
+### 4 threads
+
+![exec 4 thread](.report_src/exec_4threads.png)
+![time 4 threads](.report_src/thread_time_4_threads.png)

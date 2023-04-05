@@ -330,3 +330,18 @@ class pc_dynamic {
     }
 }
 ```
+
+## Execution screenshots
+
+### pc_static_block
+
+![static block](.report_src/exec_static_block.png)
+
+### pc_static_cyclic
+
+![static cyclic](.report_src/exec_static_cyclic.png)
+
+### pc_dynamic
+
+![dynamic](.report_src/exec_dynamic.png)
+
