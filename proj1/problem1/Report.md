@@ -24,7 +24,7 @@ javac pc_dynamic.java
 
 To use with the default values
 > NUM_END = 200000
-> NUM_THREAD = 10
+> NUM_THREAD = 1
 
 ```sh
 java pc_static_block
@@ -33,14 +33,14 @@ java pc_static_block
 To use with custom arguments
 
 ```sh
-java pc_static_block < NUM_THREAD > < NUM_END>
+java pc_static_block NUM_THREAD NUM_END
 ```
 
 ### pc_static_cyclic
 
 To use with the default values
 > NUM_END = 200000
-> NUM_THREAD = 10
+> NUM_THREAD = 1
 > TASK_SIZE = 10
 
 ```sh
@@ -50,14 +50,14 @@ java pc_static_cyclic
 To use with custom arguments
 
 ```sh
-java pc_static_cyclic < NUM_THREAD > < NUM_END > < TASK_SIZE >
+java pc_static_cyclic NUM_THREAD NUM_END TASK_SIZE
 ```
 
 ### pc_dynamic
 
 To use with the default values
 > NUM_END = 200000
-> NUM_THREAD = 10
+> NUM_THREAD = 1
 > TASK_SIZE = 10
 
 ```sh

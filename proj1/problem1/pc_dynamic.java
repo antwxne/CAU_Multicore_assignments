@@ -48,7 +48,7 @@ class pcThreadDynamic extends Thread {
 
 class pc_dynamic {
     private static int NUM_END = 200000;
-    private static int N_THREAD = 10;
+    private static int N_THREAD = 1;
     private static int TASK_SIZE = 10;
 
     public static void main(String[] args) {

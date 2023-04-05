@@ -31,7 +31,7 @@ class pcThreadStaticBlock extends Thread {
 
 class pc_static_block {
     private static int NUM_END = 200000;
-    private static int N_THREAD = 10;
+    private static int N_THREAD = 1;
 
     public static void main(String[] args) {
         int result = 0;
