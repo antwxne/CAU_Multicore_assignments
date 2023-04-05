@@ -22,7 +22,7 @@ javac MatmultD.java
 java MatmultD NUM_THREAD < mat500.txt 
 ```
 
-If you want to se the execution time of each thread:
+If you want to see the execution time of each thread:
 
 ```sh
 java MatmultD NUM_THREAD < mat500.txt | head -n NUM_THREAD
@@ -107,7 +107,7 @@ class MatMulThread extends Thread {
     for (int i = _startLine; i < A_MatrixColSize; i += _nThread) {
       for (int j = 0; j < B_MatrixColSize; j++) {
         for (int k = 0; k < A_MatrixLineSize; k++) {
-          // no lock because we can assume that only one thread will acces this memory
+          // no lock because we can assume that only one thread will access this memory
           // location
           _matrixResult[i][j] += _matrixA[i][k] * _matrixB[k][j];
         }

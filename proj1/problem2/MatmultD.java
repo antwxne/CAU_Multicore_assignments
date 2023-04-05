@@ -24,20 +24,20 @@ class MatMulThread extends Thread {
     System.out.printf("Execution Time of thread %d : %d ms\n", Thread.currentThread().getId(), timeDiff);
   }
 
-  private void multMatrix() {// a[m][n], b[n][p]
+  private void multMatrix() {
     if (_matrixA.length == 0)
       return;
     if (_matrixA[0].length != _matrixB.length)
-      return; // invalid dims
+      return;
 
-    int A_MatrixLineSize = _matrixA[0].length; // size line A
-    int A_MatrixColSize = _matrixA.length; // size colone A
-    int B_MatrixColSize = _matrixB.length; // size line B
+    int A_MatrixLineSize = _matrixA[0].length;
+    int A_MatrixColSize = _matrixA.length;
+    int B_MatrixColSize = _matrixB.length;
 
     for (int i = _startLine; i < A_MatrixColSize; i += _nThread) {
       for (int j = 0; j < B_MatrixColSize; j++) {
         for (int k = 0; k < A_MatrixLineSize; k++) {
-          // no lock because we can assume that only one thread will acces this memory
+          // no lock because we can assume that only one thread will access this memory
           // location
           _matrixResult[i][j] += _matrixA[i][k] * _matrixB[k][j];
         }
@@ -47,16 +47,6 @@ class MatMulThread extends Thread {
 
 }
 
-// command-line execution example) java MatmultD 6 < mat500.txt
-// 6 means the number of threads to use
-// < mat500.txt means the file that contains two matrices is given as standard
-// input
-//
-// In eclipse, set the argument value and file input by using the menu
-// [Run]->[Run Configurations]->{[Arguments], [Common->Input File]}.
-
-// Original JAVA source code:
-// http://stackoverflow.com/questions/21547462/how-to-multiply-2-dimensional-arrays-matrix-multiplication
 public class MatmultD {
   private static Scanner sc = new Scanner(System.in);
 
