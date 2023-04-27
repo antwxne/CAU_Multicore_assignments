@@ -15,7 +15,7 @@ class PiThread extends Thread {
         double x = 0;
         double sum = 0;
         for (int i = begin; i < end; ++i) {
-            x = (i - 0.5) * step;
+            x = (i + 0.5) * step;
             sum += 4.0 / (1 + x * x);
         }
         ans = step * sum;
