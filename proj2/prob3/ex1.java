@@ -18,8 +18,6 @@ class Cooker extends Thread {
                 System.out.printf("Cooker: Making %s pizza\n", pizza);
                 sleep(1000);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
             }
         }
     }
@@ -27,8 +25,7 @@ class Cooker extends Thread {
 
 class Waiter extends Thread {
     BlockingQueue<String> _orders;
-    Random rand = new Random(); 
-
+    Random rand = new Random();
 
     Waiter(BlockingQueue<String> o) {
         _orders = o;
@@ -37,22 +34,19 @@ class Waiter extends Thread {
     @Override
     public void run() {
         String currentPizza;
-        String[] pizzas = {"Peperoni", "Sweat potato", "Bulgogi", "Chicken"};
+        String[] pizzas = { "Peperoni", "Sweat potato", "Bulgogi", "Chicken" };
         while (true) {
             try {
                 currentPizza = pizzas[rand.nextInt(pizzas.length)];
-                _orders.add(currentPizza);
+                _orders.put(currentPizza);
                 System.out.printf("Waiter: Adding %s pizza to queue\n", currentPizza);
                 sleep(500);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
             }
         }
     }
 
 }
-
 
 public class ex1 {
     public static void main(String[] args) {
@@ -65,6 +59,7 @@ public class ex1 {
         try {
             c.join();
             w.join();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 }
