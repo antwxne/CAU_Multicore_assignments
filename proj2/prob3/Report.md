@@ -19,10 +19,36 @@ import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-class Cooker extends Thread {
-    BlockingQueue<String> _orders;
+interface WBQueue<E> {
+    public void put(E element) throws InterruptedException;
+}
 
-    Cooker(BlockingQueue<String> o) {
+interface RBQueue<E> {
+    public E take() throws InterruptedException;
+}
+
+class BQueue<E> implements RBQueue<E>, WBQueue<E> {
+    BlockingQueue<E> _queue;
+
+    BQueue(int size) {
+        _queue = new ArrayBlockingQueue<E>(size);
+    }
+
+    @Override
+    public void put(E element) throws InterruptedException {
+        _queue.put(element);
+    }
+
+    @Override
+    public E take() throws InterruptedException {
+        return _queue.take();
+    }
+}
+
+class Cooker extends Thread {
+    RBQueue<String> _orders;
+
+    Cooker(RBQueue<String> o) {
         _orders = o;
     }
 
@@ -41,10 +67,10 @@ class Cooker extends Thread {
 }
 
 class Waiter extends Thread {
-    BlockingQueue<String> _orders;
+    WBQueue<String> _orders;
     Random rand = new Random();
 
-    Waiter(BlockingQueue<String> o) {
+    Waiter(WBQueue<String> o) {
         _orders = o;
     }
 
@@ -67,7 +93,7 @@ class Waiter extends Thread {
 
 public class ex1 {
     public static void main(String[] args) {
-        BlockingQueue<String> queue = new ArrayBlockingQueue<String>(100);
+        BQueue<String> queue = new BQueue<String>(100);
         Cooker c = new Cooker(queue);
         Waiter w = new Waiter(queue);
 
