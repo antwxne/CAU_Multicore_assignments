@@ -12,14 +12,14 @@ class ParkingGarage {
     this.places = places;
   }
 
-  public synchronized void enter() { // enter parking garage
+  public void enter() { // enter parking garage
     try {
       _queue.put(true);
     } catch (Exception e) {
     }
   }
 
-  public synchronized void leave() { // leave parking garage
+  public void leave() { // leave parking garage
     try {
       _queue.take();
     } catch (Exception e) {

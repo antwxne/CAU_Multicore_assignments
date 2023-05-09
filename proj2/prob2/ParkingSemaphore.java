@@ -11,17 +11,19 @@ class ParkingGarage {
     _sem = new Semaphore(places);
   }
 
-  public synchronized void enter() { // enter parking garage
+  public void enter() { // enter parking garage
     try {
       _sem.acquire();
     } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
-  public synchronized void leave() { // leave parking garage
+  public void leave() { // leave parking garage
     try {
       _sem.release();
     } catch (Exception e) {
+      e.printStackTrace();
     }
 
   }
