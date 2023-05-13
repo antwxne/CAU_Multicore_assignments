@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-// #include "is_prime.h"
-
 #ifndef MAX_NUMBER
     #define MAX_NUMBER 200000
 #endif
