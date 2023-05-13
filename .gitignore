@@ -1,3 +1,4 @@
+*/.idea/
 venv/
 __pycache__
 a.out
@@ -27,3 +28,4 @@ a.out
 hs_err_pid*
 proj2/.vscode/settings.json
 50221600_proj3/prob1/.idea/
+50221600_proj3/prob2/.idea/

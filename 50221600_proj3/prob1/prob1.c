@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <omp.h>
 #include <string.h>
-#include <sys/time.h>
 
 #ifndef MAX_NUMBER
     #define MAX_NUMBER 200000
@@ -35,9 +34,8 @@ static unsigned long pc_static(void)
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
-    #pragma omp parallel for schedule(static) default(none) shared(result) private(i)
+    #pragma omp parallel for schedule(static) default(none) reduction(+: result) private(i)
     for (i = 1; i <= MAX_NUMBER; ++i) {
-        #pragma omp atomic
         result += is_prime(i);
     }
     return result;
@@ -50,9 +48,8 @@ static unsigned long pc_static_chunk(void)
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
-    #pragma omp parallel for schedule(static, 10) default(none) shared(result) private(i)
+    #pragma omp parallel for schedule(static, 10) default(none) reduction(+: result) private(i)
     for (i = 1; i <= MAX_NUMBER; ++i) {
-        #pragma omp atomic
         result += is_prime(i);
     }
     return result;
@@ -65,9 +62,8 @@ static unsigned long pc_dynamic(void)
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
-    #pragma omp parallel for schedule(dynamic) default(none) shared(result) private(i)
+    #pragma omp parallel for schedule(dynamic) default(none) reduction(+: result) private(i)
     for (i = 1; i <= MAX_NUMBER; ++i) {
-        #pragma omp atomic
         result += is_prime(i);
     }
     return result;
@@ -80,9 +76,8 @@ static unsigned long pc_dynamic_chunk(void)
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
-    #pragma omp parallel for schedule(dynamic, 10) default(none) shared(result) private(i)
+    #pragma omp parallel for schedule(dynamic, 10) default(none) reduction(+: result) private(i)
     for (i = 1; i <= MAX_NUMBER; ++i) {
-        #pragma omp atomic
         result += is_prime(i);
     }
     return result;
@@ -136,22 +131,23 @@ int main(int ac, char **av)
 {
     int scheduling_type;
     int thread_number;
-    unsigned long result;
-    struct timeval begin;
-    struct timeval end;
+    unsigned long result = 0;
+    double start_time = 0;
+    double end_time = 0;
 
     if (!error_handling(ac, (const char **)av, &scheduling_type,
         &thread_number)) {
         return 1;
     }
-    #ifdef _OPENMP
-    omp_set_num_threads(thread_number);
+    #ifndef _OPENMP
+    fputs("OPEN MP undefined", stderr);
+    return 1;
     #endif
-    gettimeofday(&begin, NULL);
+    omp_set_num_threads(thread_number);
+    start_time = omp_get_wtime();
     result = pc_fct_array[scheduling_type]();
-    gettimeofday(&end, NULL);
-    printf("Execution time: %ld ms\n", (end.tv_sec - begin.tv_sec) * 1000 +
-        (end.tv_usec - begin.tv_usec) / 1000);
-    printf("Number of primes: %ld\n", result);
+    end_time = omp_get_wtime();
+    printf("Execution Time : %.0lfms\n", (end_time - start_time) * 1000);
+    printf("Number of primes : %ld\n", result);
     return 0;
 }
