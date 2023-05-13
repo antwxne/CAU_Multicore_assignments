@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <omp.h>
+#include <string.h>
 
 long pc_static(void);
 long pc_static_chunk(void);
@@ -17,7 +18,7 @@ static bool get_scheduling_type(const char *arg, int *scheduling_type_ptr)
 
     errno = 0;
     *scheduling_type_ptr = (int)strtol(arg, &end_ptr, 10);
-    if (errno != 0 || arg == end_ptr || *scheduling_type_ptr > 4 ||
+    if (errno != 0 || arg == end_ptr || &arg[strlen(arg)] != end_ptr || *scheduling_type_ptr > 4 ||
         *scheduling_type_ptr < 1) {
         fputs(
             "Please provide a correct integer between 1 and 4 for the scheduling_type",
@@ -33,7 +34,7 @@ static bool get_thread_number(const char *arg, int *thread_number_ptr)
 
     errno = 0;
     *thread_number_ptr = (int)strtol(arg, &end_ptr, 10);
-    if (errno != 0 || arg == end_ptr || *thread_number_ptr < 1) {
+    if (errno != 0 || arg == end_ptr || &arg[strlen(arg)] != end_ptr || *thread_number_ptr < 1) {
         fputs(
             "Please provide a correct positive integer for the number of threads",
             stderr);
