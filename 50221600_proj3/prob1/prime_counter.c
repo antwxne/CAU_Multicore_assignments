@@ -68,7 +68,7 @@ long pc_dynamic_chunk(void)
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
-    #pragma omp parallel for schedule(dynamic) default(none) shared(result) private(i)
+    #pragma omp parallel for schedule(dynamic, 10) default(none) shared(result) private(i)
     for (i = 1; i <= MAX_NUMBER; ++i) {
         #pragma omp atomic
         result += is_prime(i);
