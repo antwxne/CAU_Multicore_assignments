@@ -11,7 +11,7 @@ RM	?= rm -f
 # Flags
 
 CFLAGS	=	-Wall -Wextra -fopenmp
-CPPFLAGS	=	-iquote ./
+CPPFLAGS	=
 LDFLAGS	=
 LDLIBS	=	-fopenmp
 
