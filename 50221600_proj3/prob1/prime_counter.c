@@ -2,8 +2,21 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "is_prime.h"
-#include "constants.h"
+// #include "is_prime.h"
+
+#ifndef MAX_NUMBER
+    #define MAX_NUMBER 200000
+#endif
+
+static inline bool is_prime(const long x) {
+    if ((x <= 1) || (x & 1) == 0)
+        return false;
+    for (long i = 3; i < x; i++) {
+        if ((x % i == 0) && (i != x))
+            return false;
+    }
+    return true;
+}
 
 long pc_static(void)
 {
