@@ -24,7 +24,7 @@ make
 ### CLI
 
 ```shell
-gcc -o a.out ./prob1.c ./prime_counter.c  -fopenmp
+gcc -o a.out ./prob1.c -fopenmp
 ```
 
 ## Static

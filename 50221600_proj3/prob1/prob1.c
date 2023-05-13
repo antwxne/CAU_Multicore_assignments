@@ -6,12 +6,87 @@
 #include <string.h>
 #include <sys/time.h>
 
-unsigned long pc_static(void);
-unsigned long pc_static_chunk(void);
-unsigned long pc_dynamic(void);
-unsigned long pc_dynamic_chunk(void);
+#ifndef MAX_NUMBER
+    #define MAX_NUMBER 200000
+#endif
+
+static unsigned long pc_static(void);
+static unsigned long pc_static_chunk(void);
+static unsigned long pc_dynamic(void);
+static unsigned long pc_dynamic_chunk(void);
 static unsigned long (*pc_fct_array[])(void) = {NULL, pc_static,
     pc_static_chunk, pc_dynamic, pc_dynamic_chunk};
+
+static inline bool is_prime(const unsigned long x)
+{
+    if ((x <= 1) || (x & 1) == 0)
+        return false;
+    for (unsigned long i = 3; i < x; i++) {
+        if ((x % i == 0) && (i != x))
+            return false;
+    }
+    return true;
+}
+
+static unsigned long pc_static(void)
+{
+    unsigned long result;
+    unsigned long i;
+
+    #pragma omp parallel default(none) shared(result) private(i)
+    result = 0;
+    #pragma omp parallel for schedule(static) default(none) shared(result) private(i)
+    for (i = 1; i <= MAX_NUMBER; ++i) {
+        #pragma omp atomic
+        result += is_prime(i);
+    }
+    return result;
+}
+
+static unsigned long pc_static_chunk(void)
+{
+    unsigned long result;
+    unsigned long i;
+
+    #pragma omp parallel default(none) shared(result) private(i)
+    result = 0;
+    #pragma omp parallel for schedule(static, 10) default(none) shared(result) private(i)
+    for (i = 1; i <= MAX_NUMBER; ++i) {
+        #pragma omp atomic
+        result += is_prime(i);
+    }
+    return result;
+}
+
+static unsigned long pc_dynamic(void)
+{
+    unsigned long result;
+    unsigned long i;
+
+    #pragma omp parallel default(none) shared(result) private(i)
+    result = 0;
+    #pragma omp parallel for schedule(dynamic) default(none) shared(result) private(i)
+    for (i = 1; i <= MAX_NUMBER; ++i) {
+        #pragma omp atomic
+        result += is_prime(i);
+    }
+    return result;
+}
+
+static unsigned long pc_dynamic_chunk(void)
+{
+    unsigned long result;
+    unsigned long i;
+
+    #pragma omp parallel default(none) shared(result) private(i)
+    result = 0;
+    #pragma omp parallel for schedule(dynamic, 10) default(none) shared(result) private(i)
+    for (i = 1; i <= MAX_NUMBER; ++i) {
+        #pragma omp atomic
+        result += is_prime(i);
+    }
+    return result;
+}
 
 static bool get_scheduling_type(const char *arg, int *scheduling_type_ptr)
 {

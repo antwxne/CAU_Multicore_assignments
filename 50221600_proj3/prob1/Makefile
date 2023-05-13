@@ -1,7 +1,5 @@
 # Var
-SRC	=	./prob1.c	\
-		./prime_counter.c
-
+SRC	=	./prob1.c
 
 OBJ	=	$(SRC:.c=.o)
 NAME	=	a.out
