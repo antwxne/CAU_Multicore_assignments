@@ -5,20 +5,21 @@
     #define MAX_NUMBER 200000
 #endif
 
-static inline bool is_prime(const long x) {
+static inline bool is_prime(const unsigned long x)
+{
     if ((x <= 1) || (x & 1) == 0)
         return false;
-    for (long i = 3; i < x; i++) {
+    for (unsigned long i = 3; i < x; i++) {
         if ((x % i == 0) && (i != x))
             return false;
     }
     return true;
 }
 
-long pc_static(void)
+unsigned long pc_static(void)
 {
-    long result;
-    long i;
+    unsigned long result;
+    unsigned long i;
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
@@ -30,10 +31,10 @@ long pc_static(void)
     return result;
 }
 
-long pc_static_chunk(void)
+unsigned long pc_static_chunk(void)
 {
-    long result;
-    long i;
+    unsigned long result;
+    unsigned long i;
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
@@ -45,10 +46,10 @@ long pc_static_chunk(void)
     return result;
 }
 
-long pc_dynamic(void)
+unsigned long pc_dynamic(void)
 {
-    long result;
-    long i;
+    unsigned long result;
+    unsigned long i;
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
@@ -60,10 +61,10 @@ long pc_dynamic(void)
     return result;
 }
 
-long pc_dynamic_chunk(void)
+unsigned long pc_dynamic_chunk(void)
 {
-    long result;
-    long i;
+    unsigned long result;
+    unsigned long i;
 
     #pragma omp parallel default(none) shared(result) private(i)
     result = 0;
