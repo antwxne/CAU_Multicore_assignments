@@ -1,5 +1,4 @@
 #include <omp.h>
-#include <stdio.h>
 #include <stdbool.h>
 
 #ifndef MAX_NUMBER
