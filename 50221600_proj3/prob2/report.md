@@ -2,6 +2,32 @@
 
 __Antoine DESRUET 50221600__
 
+## Environment
+
+| Os               | Pop!_OS 22.04 LTS x86         |
+|------------------|-------------------------------|
+| CPU              | Intel i7-8665U (8) @ 1.900GHz |
+| Memory           | 16Gb                          |
+| GCC version      | 14.0.0                        |
+| GNU Make version | 4.3                           | 
+
+## Build
+
+In the prob2 folder:
+
+### GNU Make
+
+```shell
+make
+```
+
+### CLI
+
+```shell
+gcc -o a.out ./prob2.c -fopenmp
+```
+
+
 ## Static
 
 ### Tables
@@ -127,3 +153,11 @@ __Antoine DESRUET 50221600__
 #### Performance
 
 ![guided_performance.png](benchmark%2Fresults%2Fguided_performance.png)
+
+## Explanation
+
+We can see that the more important the chunk size is, the more high the performance is.
+
+This work for every scheduling types.
+
+This is because each task take the same time so threads can do a lot of tasks in one time. We don't need to split thoses tasks.
