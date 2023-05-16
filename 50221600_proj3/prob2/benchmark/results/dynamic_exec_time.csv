@@ -1,0 +1,10 @@
+Number of thread,Execution time 1 chunks,Execution time 5 chunks,Execution time 10 chunks,Execution time 100 chunks
+1,181,49,35,24
+2,191,41,25,14
+4,183,43,22,8
+6,157,39,19,8
+8,180,30,19,7
+10,159,37,18,7
+12,137,31,18,7
+14,181,37,18,9
+16,142,37,16,8
