@@ -13,7 +13,7 @@ static double compute_pi(const int scheduling_type, const int chunk_size)
 {
     long i;
     double x;
-    double sum;
+    long double sum;
     double step;
 
     omp_set_schedule(scheduling_type, chunk_size);
