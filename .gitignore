@@ -1,3 +1,5 @@
+openmp_ray
+result.ppm
 */.idea/
 venv/
 __pycache__
