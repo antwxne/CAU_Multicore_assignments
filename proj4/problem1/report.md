@@ -357,4 +357,4 @@ int main(int argc, char *argv[])
 
 ## Interpretation
 
-We can see that for `4 threads` and `16 threads` it take the less time.
+We can see that the GPU execution take less time that the one thread execution. So we can conclude that for this type of computation, GPU computation is better.
