@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
     cudaEventElapsedTime(&elapsedTime, start, end);
     bitmap = (unsigned char *)malloc(sizeof(unsigned char) * DIM * DIM * 4);
     cudaMemcpy(bitmap, device_bitmap, sizeof(unsigned char) * DIM * DIM * 4, cudaMemcpyDeviceToHost);
-    printf("CUDA ray tracing: %.3lf sec\n", elapsedTime);
+    printf("CUDA ray tracing: %.3lf sec\n", elapsedTime / 1000);
     ppm_write(bitmap, DIM, DIM, fp);
     printf("[%s] was generated.", filename);
     fclose(fp);
