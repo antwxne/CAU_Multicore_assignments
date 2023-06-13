@@ -1,4 +1,5 @@
 openmp_ray
+.venv/
 */.idea/
 venv/
 __pycache__
